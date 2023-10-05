@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { join, resolve } from "path";
-import { readdirSync } from "fs";
+import { join } from "path";
 import { readdirRecursive } from "../utils/fileManager";
 
 export const uploadSingleFile = (
@@ -29,13 +28,17 @@ export const uploadMultipleFile = (
   res.send(files);
 };
 
-export const getDirTreeFromPath = (req: Request, res: Response) => {
-  const uploadsPath = join(__dirname, "../uploads");
+export const getDirTreeFromPath = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const uploadsPath = join(__dirname, "../uploadfds");
   console.log(uploadsPath);
   try {
     const dirTree = readdirRecursive(uploadsPath);
     res.send(dirTree);
   } catch (error) {
-    res.status(500).json({ error: "No se pudo leer el directorio" });
+    return next(error);
   }
 };
