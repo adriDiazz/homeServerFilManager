@@ -8,7 +8,7 @@ Filemanager with React &amp; Nodejs
 
 
 ### Used technologies
-Nodejs, ExpressJs
+Nodejs, ExpressJs, Prisma, React
 
 ### Basic usage
 Plugin has two parts: Front-end & Back-end. For initialising file manager you have to install and run both of them from terminal with commands
