@@ -23,7 +23,10 @@ export const login = async (user: UserInput) => {
 
   return {
     token,
-    user: userExist,
+    user: {
+      name: userExist.name,
+      email: userExist.email,
+    },
   };
 };
 
