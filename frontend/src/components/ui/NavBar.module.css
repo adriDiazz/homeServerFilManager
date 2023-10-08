@@ -1,0 +1,25 @@
+.wrapper {
+    background-color: var(--dark);
+    
+}
+
+.logoWrapper {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    width: fit-content;
+
+    cursor: pointer;
+}
+
+.logoWrapper span {
+    color: var(--white);
+    font-weight: 700;
+    width: 2rem;
+}
+
+.logoWrapper img {
+    width: 2rem;
+}
