@@ -12,6 +12,8 @@ const LoginPage = () => {
     password: "",
   });
 
+  console.log("");
+
   useEffect(() => {
     const token = localStorage.getItem("token") || "";
     if (token) {
