@@ -82,7 +82,7 @@
     color: var(--grey);
 }
 
-@media (min-width: 1200px) {
+@media (max-width: 1200px) {
     .wrapper {
             display: flex;
             justify-content: space-between;
