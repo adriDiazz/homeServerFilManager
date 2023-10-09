@@ -3,16 +3,16 @@ import styles from "./LoginPage.module.css";
 import { useEffect, useState } from "react";
 import { LoginForm, LoginResponse } from "../types/form";
 import useFetch from "../hooks/useFetch";
+import { useUserContext } from "../context/UserContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { data, loading, error, fetchData } = useFetch<LoginResponse>();
+  const { data, error, fetchData } = useFetch<LoginResponse>();
+  const { setToken, setUser } = useUserContext();
   const [formData, setFormData] = useState<LoginForm>({
     username: "",
     password: "",
   });
-
-  console.log("");
 
   useEffect(() => {
     const token = localStorage.getItem("token") || "";
@@ -30,7 +30,8 @@ const LoginPage = () => {
     e.preventDefault();
     fetchData(import.meta.env.VITE_LOGIN_URL, "POST", formData);
     localStorage.setItem("token", data?.token || "");
-    //navigate("/");
+    setToken(data?.token);
+    setUser(data?.user);
   };
 
   return (

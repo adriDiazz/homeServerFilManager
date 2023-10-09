@@ -24,6 +24,7 @@ export const login = async (user: UserInput) => {
   return {
     token,
     user: {
+      id: userExist.id,
       name: userExist.name,
       email: userExist.email,
     },
