@@ -3,14 +3,13 @@ import styles from "./DocModal.module.css";
 
 const DocModal = ({ files }) => {
   const [imageSrc, setImageSrc] = useState("");
-  const [PDF, setPDF] = useState("");
-  const [pageNumber, setPageNumber] = useState(1);
 
   console.log(files);
 
   if (
     files[0].type.startsWith("image/") ||
-    files[0].type.startsWith("application/pdf")
+    files[0].type.startsWith("application/pdf") ||
+    files[0].type.startsWith("video/")
   ) {
     const reader = new FileReader();
 
@@ -24,20 +23,26 @@ const DocModal = ({ files }) => {
   return (
     <div className={styles.modalWrapper}>
       <h2>Preview Your File</h2>
-      {/* <img src={imageSrc} alt="Dropped Image" /> */}
-      <div
-        style={{
-          width: "100%",
-        }}
-      >
-        <iframe
-          src={imageSrc}
-          width="100%"
-          height="500px"
-          title="PDF Viewer"
-        ></iframe>
-      </div>
+      {files[0].type.startsWith("video/") && (
+        <video controls width="90%" height="360" src={imageSrc}>
+          <source src={imageSrc} type={files[0].type} />
+        </video>
+      )}
 
+      {files[0].type.startsWith("application/pdf") && (
+        <div className={styles.iframeWrapper}>
+          <iframe
+            src={imageSrc}
+            width="90%"
+            height="500px"
+            title="PDF Viewer"
+          ></iframe>
+        </div>
+      )}
+
+      {files[0].type.startsWith("image/") && (
+        <img src={imageSrc} alt="Droped Image" />
+      )}
       <div className={styles.btnWrapper}>
         <button className={styles.btn}>Upload</button>
       </div>
