@@ -82,7 +82,7 @@
     color: var(--grey);
 }
 
-@media (max-width: 1200px) {
+@media (min-width: 1200px) {
     .wrapper {
             display: flex;
             justify-content: space-between;
@@ -91,7 +91,7 @@
             padding-bottom: 0;
         }
     .wrapper img {
-        top: 30%;
+        top: 25%;
     }
 }
 

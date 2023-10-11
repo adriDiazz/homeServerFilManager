@@ -1,0 +1,36 @@
+.modalWrapper {
+    width: 50vw;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.modalWrapper h2 {
+    padding: 2rem;
+
+}
+
+.modalWrapper img {
+    padding: 2rem;
+    width: 70%;
+}
+
+.btn {
+    background-color: var(--purple);
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    color: var(--white);
+    -webkit-box-shadow: 0px 0px 11px 3px rgba(0, 0, 0, 0.28);
+    box-shadow: 0px 0px 11px 3px rgba(0, 0, 0, 0.28);
+    cursor: pointer;
+}
+
+.btnWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

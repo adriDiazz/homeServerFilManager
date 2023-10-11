@@ -33,7 +33,7 @@ export const getDirTreeFromPath = (
   res: Response,
   next: NextFunction
 ) => {
-  const uploadsPath = join(__dirname, "../uploadfds");
+  const uploadsPath = join(__dirname, "../uploads");
   console.log(uploadsPath);
   try {
     const dirTree = readdirRecursive(uploadsPath);
@@ -42,5 +42,3 @@ export const getDirTreeFromPath = (
     return next(error);
   }
 };
-
-

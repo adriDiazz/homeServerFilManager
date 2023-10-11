@@ -43,7 +43,7 @@ const LoginPage = () => {
       </div>
 
       <div className={styles.formWrapper}>
-        <span>Sing In</span>
+        <span>Sign In</span>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
