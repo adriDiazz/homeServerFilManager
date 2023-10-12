@@ -43,7 +43,9 @@ const DocModal = ({ files }) => {
       {files[0].type.startsWith("image/") && (
         <img src={imageSrc} alt="Droped Image" />
       )}
+
       <div className={styles.btnWrapper}>
+        <input type="text" placeholder="Enter the file name" />
         <button className={styles.btn}>Upload</button>
       </div>
     </div>

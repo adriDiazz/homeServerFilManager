@@ -2,15 +2,15 @@ import { useRef, useState } from "react";
 import "./DragDrop.css";
 import ModalComponent from "../ui/ModalComponent";
 import DocModal from "./DocModal";
+import MultipleFiles from "./MultipleFiles";
 
 const DragDrop = () => {
   const [dragActive, setDragActive] = useState(false);
   const [opened, setOpened] = useState(false);
   const [files, setFiles] = useState([]);
-  // ref
+
   const inputRef = useRef(null);
 
-  // handle drag events
   const handleDrag = function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -21,27 +21,25 @@ const DragDrop = () => {
     }
   };
 
-  // triggers when file is dropped
   const handleDrop = function (e) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      // handleFiles(e.dataTransfer.files);
       setOpened(true);
       setFiles(e.dataTransfer.files);
     }
   };
 
-  // triggers when file is selected with click
   const handleChange = function (e) {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
-      // handleFiles(e.target.files);
+      console.log(e.target.files);
+      setOpened(true);
+      setFiles(e.target.files);
     }
   };
 
-  // triggers the input when the button is clicked
   const onButtonClick = () => {
     inputRef.current.click();
   };
@@ -84,7 +82,11 @@ const DragDrop = () => {
         )}
       </form>
       <ModalComponent opened={opened} setOpened={setOpened}>
-        <DocModal files={files} />
+        {files.length > 1 ? (
+          <MultipleFiles files={files} />
+        ) : (
+          <DocModal files={files} />
+        )}
       </ModalComponent>
     </>
   );
