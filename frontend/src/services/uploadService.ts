@@ -1,4 +1,10 @@
-export const uploadFile = (file, setSelectingDirectory, directory) => {
+export const uploadFile = (
+  file,
+  setSelectingDirectory,
+  directory,
+  notify,
+  notifyError
+) => {
   const formData = new FormData();
 
   formData.append("uploadedFile", file);
@@ -9,14 +15,17 @@ export const uploadFile = (file, setSelectingDirectory, directory) => {
   })
     .then((response) => {
       if (!response.ok) {
+        notifyError();
         throw new Error("Hubo un problema al enviar el archivo.");
       }
       return response.json(); // Puedes cambiar esto según el tipo de respuesta esperada
     })
     .then((data) => {
+      notify();
       setSelectingDirectory(true);
     })
     .catch((error) => {
+      notifyError();
       console.error("Error:", error);
     });
 };
@@ -24,7 +33,9 @@ export const uploadFile = (file, setSelectingDirectory, directory) => {
 export const uploadMultipleFiles = (
   files,
   setSelectingDirectory,
-  directory
+  directory,
+  notify,
+  notifyError
 ) => {
   const formData = new FormData();
 
@@ -39,14 +50,17 @@ export const uploadMultipleFiles = (
     .then((response) => {
       console.log(response);
       if (!response.ok) {
+        notifyError();
         throw new Error("Hubo un problema al enviar los archivos.");
       }
       return response.json(); // Puedes cambiar esto según el tipo de respuesta esperada
     })
     .then((data) => {
+      notify();
       setSelectingDirectory(true);
     })
     .catch((error) => {
+      notifyError();
       console.error("Error:", error.message);
     });
 };

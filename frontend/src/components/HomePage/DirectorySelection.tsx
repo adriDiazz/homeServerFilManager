@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import styles from "./DirectorySelection.module.css";
 import useFetch from "../../hooks/useFetch";
-import { shortName } from "../../utils/utils";
 import { uploadFile, uploadMultipleFiles } from "../../services/uploadService";
 import Loader from "../ui/Loader";
 import DirectoryList from "./DirectoryList";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 function DirectorySelection({
   file,
@@ -16,7 +18,8 @@ function DirectorySelection({
   const { data, error, fetchData, loading } = useFetch();
   const [directory, setDirectory] = useState("/");
 
-  console.log(directory);
+  const notify = () => toast("File uploaded");
+  const notifyError = () => toast("Error while uploading");
 
   useEffect(() => {
     fetchData(import.meta.env.VITE_TREE_URL);
@@ -50,9 +53,9 @@ function DirectorySelection({
   const handleUpload = (e) => {
     e.preventDefault();
     if (files.length > 1) {
-      uploadMultipleFiles(files, setAllClosed, directory);
+      uploadMultipleFiles(files, setAllClosed, directory, notify, notifyError);
     } else {
-      uploadFile(fileInput, setAllClosed, directory);
+      uploadFile(fileInput, setAllClosed, directory, notify, notifyError);
     }
   };
 

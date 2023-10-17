@@ -3,12 +3,11 @@ import styles from "./DocModal.module.css";
 import DirectorySelection from "./DirectorySelection";
 import DocModalContent from "./DocModalContent";
 
-const DocModal = ({ files }) => {
+const DocModal = ({ files, setAllClosed, allClosed }) => {
   const [imageSrc, setImageSrc] = useState("");
   const [selectingDirectory, setSelectingDirectory] = useState(false);
   const [fileName, setFilename] = useState(files[0].name);
   const [error, setError] = useState(false);
-  const [allClosed, setAllClosed] = useState();
 
   useEffect(() => {
     if (

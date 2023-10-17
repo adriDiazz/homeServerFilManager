@@ -3,11 +3,13 @@ import "./DragDrop.css";
 import ModalComponent from "../ui/ModalComponent";
 import DocModal from "./DocModal";
 import MultipleFiles from "./MultipleFiles";
+import { ToastContainer } from "react-toastify";
 
 const DragDrop = () => {
   const [dragActive, setDragActive] = useState(false);
   const [opened, setOpened] = useState(false);
   const [files, setFiles] = useState([]);
+  const [allClosed, setAllClosed] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -81,13 +83,26 @@ const DragDrop = () => {
           ></div>
         )}
       </form>
-      <ModalComponent opened={opened} setOpened={setOpened}>
-        {files.length > 1 ? (
-          <MultipleFiles files={files} />
-        ) : (
-          <DocModal files={files} />
-        )}
-      </ModalComponent>
+      <ToastContainer />
+      {!allClosed && (
+        <ModalComponent opened={opened} setOpened={setOpened}>
+          {files.length > 1 && !allClosed && (
+            <MultipleFiles
+              files={files}
+              setAllClosed={setAllClosed}
+              allClosed={allClosed}
+            />
+          )}
+
+          {files.length === 1 && !allClosed && (
+            <DocModal
+              files={files}
+              setAllClosed={setAllClosed}
+              allClosed={allClosed}
+            />
+          )}
+        </ModalComponent>
+      )}
     </>
   );
 };

@@ -3,12 +3,11 @@ import styles from "./MultipleFiles.module.css";
 import MultipleFilesContent from "./MultipleFilesContent";
 import DirectorySelection from "./DirectorySelection";
 
-const MultipleFiles = ({ files }) => {
+const MultipleFiles = ({ files, setAllClosed, allClosed }) => {
   const [imageSrc, setImageSrc] = useState("");
   const [pdfSrc, setPdfSrc] = useState("");
   const [videoSrc, setVideoSrc] = useState("");
   const [selectingDirectory, setSelectingDirectory] = useState(false);
-  const [allClosed, setAllClosed] = useState(false);
 
   useEffect(() => {
     const processFiles = async () => {

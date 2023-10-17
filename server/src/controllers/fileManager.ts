@@ -8,7 +8,6 @@ export const uploadSingleFile = (
   next: NextFunction
 ) => {
   const file = req.file;
-  console.log(req.params);
   if (!file) {
     const error = new Error("Please upload a file");
     return next(error);
@@ -22,6 +21,8 @@ export const uploadMultipleFile = (
   next: NextFunction
 ) => {
   const files = req.files;
+  console.log("Jpl;a");
+  console.log(req.params);
   if (!files) {
     const error = new Error("Please upload a file");
     return next(error);

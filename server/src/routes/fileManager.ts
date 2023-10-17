@@ -27,7 +27,7 @@ const upload = multer({
 });
 
 fileManagerRouter.post(
-  "/:path(*)",
+  "/unique/:path(*)",
   upload.single("uploadedFile"),
   uploadSingleFile
 );
