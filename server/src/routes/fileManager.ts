@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  getDirRootTreeFromPath,
   getDirTreeFromPath,
   uploadMultipleFile,
   uploadSingleFile,
@@ -25,12 +26,17 @@ const upload = multer({
   },
 });
 
-fileManagerRouter.post("/", upload.single("uploadedFile"), uploadSingleFile);
 fileManagerRouter.post(
-  "/multiple",
+  "/:path(*)",
+  upload.single("uploadedFile"),
+  uploadSingleFile
+);
+fileManagerRouter.post(
+  "/multiple/:path(*)",
   upload.array("uploadedFiles", 5),
   uploadMultipleFile
 );
-fileManagerRouter.get("/uploads", getDirTreeFromPath);
+fileManagerRouter.get("/uploads/:path(*)", getDirTreeFromPath);
+fileManagerRouter.get("/uploads", getDirRootTreeFromPath);
 
 export default fileManagerRouter;

@@ -19,6 +19,7 @@ const useFetch = <Data>() => {
     method: HttpMethod = "GET",
     body: unknown = null
   ) => {
+    console.log(typeof body);
     try {
       const options: RequestInit = {
         method,

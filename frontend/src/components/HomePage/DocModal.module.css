@@ -21,7 +21,11 @@
 
 }
 
-.modalWrapper img {
+/* .modalWrapper img {
+    padding: 2rem;
+    width: 70%;
+} */
+.modalWrapperImage {
     padding: 2rem;
     width: 70%;
 }

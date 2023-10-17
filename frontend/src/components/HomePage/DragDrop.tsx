@@ -40,9 +40,9 @@ const DragDrop = () => {
     }
   };
 
-  const onButtonClick = () => {
-    inputRef.current.click();
-  };
+  // const onButtonClick = () => {
+  //   inputRef.current.click();
+  // };
 
   return (
     <>

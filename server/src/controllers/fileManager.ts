@@ -8,6 +8,7 @@ export const uploadSingleFile = (
   next: NextFunction
 ) => {
   const file = req.file;
+  console.log(req.params);
   if (!file) {
     const error = new Error("Please upload a file");
     return next(error);
@@ -33,8 +34,24 @@ export const getDirTreeFromPath = (
   res: Response,
   next: NextFunction
 ) => {
-  const uploadsPath = join(__dirname, "../uploads");
-  console.log(uploadsPath);
+  const path = req.params.path || "";
+
+  const uploadsPath = join(__dirname, `../uploads/${path}`);
+  try {
+    const dirTree = readdirRecursive(uploadsPath);
+    res.send(dirTree);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const getDirRootTreeFromPath = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const uploadsPath = join(__dirname, `../uploads`);
+
   try {
     const dirTree = readdirRecursive(uploadsPath);
     res.send(dirTree);

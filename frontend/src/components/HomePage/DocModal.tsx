@@ -1,53 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./DocModal.module.css";
+import DirectorySelection from "./DirectorySelection";
+import DocModalContent from "./DocModalContent";
 
 const DocModal = ({ files }) => {
   const [imageSrc, setImageSrc] = useState("");
+  const [selectingDirectory, setSelectingDirectory] = useState(false);
+  const [fileName, setFilename] = useState(files[0].name);
+  const [error, setError] = useState(false);
+  const [allClosed, setAllClosed] = useState();
 
-  console.log(files);
+  useEffect(() => {
+    if (
+      files[0].type.startsWith("image/") ||
+      files[0].type.startsWith("application/pdf") ||
+      files[0].type.startsWith("video/")
+    ) {
+      const reader = new FileReader();
 
-  if (
-    files[0].type.startsWith("image/") ||
-    files[0].type.startsWith("application/pdf") ||
-    files[0].type.startsWith("video/")
-  ) {
-    const reader = new FileReader();
+      reader.onload = function (e) {
+        setImageSrc(e.target.result);
+      };
 
-    reader.onload = function (e) {
-      setImageSrc(e.target.result); // Establece la URL de la imagen en el estado
-    };
-
-    reader.readAsDataURL(files[0]);
-  }
+      reader.readAsDataURL(files[0]);
+    } else {
+      setError(true);
+    }
+  }, [files]);
 
   return (
     <div className={styles.modalWrapper}>
-      <h2>Preview Your File</h2>
-      {files[0].type.startsWith("video/") && (
-        <video controls width="90%" height="360" src={imageSrc}>
-          <source src={imageSrc} type={files[0].type} />
-        </video>
+      {selectingDirectory && !error && !allClosed && (
+        <DirectorySelection
+          file={imageSrc}
+          name={fileName}
+          fileInput={files[0]}
+          setAllClosed={setAllClosed}
+        />
       )}
-
-      {files[0].type.startsWith("application/pdf") && (
-        <div className={styles.iframeWrapper}>
-          <iframe
-            src={imageSrc}
-            width="90%"
-            height="500px"
-            title="PDF Viewer"
-          ></iframe>
-        </div>
+      {!selectingDirectory && !error && !allClosed && (
+        <DocModalContent
+          files={files}
+          imageSrc={imageSrc}
+          setSelectingDirectory={setSelectingDirectory}
+          fileName={fileName}
+          setFilename={setFilename}
+        />
       )}
-
-      {files[0].type.startsWith("image/") && (
-        <img src={imageSrc} alt="Droped Image" />
-      )}
-
-      <div className={styles.btnWrapper}>
-        <input type="text" placeholder="Enter the file name" />
-        <button className={styles.btn}>Upload</button>
-      </div>
+      {error && <h2>Solo se permiten archivos de tipo imagen, video o pdf</h2>}
     </div>
   );
 };

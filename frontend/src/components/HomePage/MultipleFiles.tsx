@@ -1,74 +1,63 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./MultipleFiles.module.css";
+import MultipleFilesContent from "./MultipleFilesContent";
+import DirectorySelection from "./DirectorySelection";
 
 const MultipleFiles = ({ files }) => {
   const [imageSrc, setImageSrc] = useState("");
   const [pdfSrc, setPdfSrc] = useState("");
   const [videoSrc, setVideoSrc] = useState("");
+  const [selectingDirectory, setSelectingDirectory] = useState(false);
+  const [allClosed, setAllClosed] = useState(false);
+
+  useEffect(() => {
+    const processFiles = async () => {
+      for (const file of files) {
+        if (file.type.startsWith("image/")) {
+          const imageSrc = await readFileAsDataURL(file);
+          setImageSrc(imageSrc);
+        } else if (file.type.startsWith("video/")) {
+          const videoSrc = await readFileAsDataURL(file);
+          setVideoSrc(videoSrc);
+        } else if (file.type.startsWith("application/pdf")) {
+          const pdfSrc = await readFileAsDataURL(file);
+          setPdfSrc(pdfSrc);
+        }
+      }
+    };
+
+    processFiles();
+  }, [files]);
+
+  const readFileAsDataURL = (file) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        resolve(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
 
   return (
     <div className={styles.modalWrapper}>
-      <h2>Preview Your Files</h2>
-      <div className={styles.filesWrapper}>
-        {Object.keys(files).map((key) => {
-          if (files[key].type.startsWith("image/")) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-              setImageSrc(e.target.result);
-            };
-
-            reader.readAsDataURL(files[key]);
-            return (
-              <div className={styles.imgWrapper}>
-                <img
-                  src={imageSrc}
-                  alt="Droped image"
-                  className={styles.image}
-                />
-                <input type="text" placeholder={files[key].name} />
-              </div>
-            );
-          } else if (files[key].type.startsWith("video/")) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-              setVideoSrc(e.target.result);
-            };
-
-            reader.readAsDataURL(files[key]);
-            return (
-              <div className={styles.videoWrapper}>
-                <video src={videoSrc} className={styles.videoP}>
-                  <source src={videoSrc} type={files[key].type} />
-                </video>
-                <input type="text" placeholder={files[key].name} />
-              </div>
-            );
-          } else if (files[key].type.startsWith("application/pdf")) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-              setPdfSrc(e.target.result);
-            };
-
-            reader.readAsDataURL(files[key]);
-            return (
-              <div className={styles.frameWrapper}>
-                <iframe
-                  src={pdfSrc}
-                  title="PDF Viewer"
-                  className={styles.iframeP}
-                ></iframe>
-                <input type="text" placeholder={files[key].name} />
-              </div>
-            );
-          }
-        })}
-      </div>
-      <div className={styles.btnWrapper}>
-        <button className={styles.btn}>Upload</button>
-      </div>
+      {selectingDirectory && !allClosed && (
+        <DirectorySelection
+          file={imageSrc}
+          fileInput={files[0]}
+          files={files}
+          setAllClosed={setAllClosed}
+        />
+      )}
+      {!selectingDirectory && !allClosed && (
+        <MultipleFilesContent
+          files={files}
+          videoSrc={videoSrc}
+          pdfSrc={pdfSrc}
+          imageSrc={imageSrc}
+          setSelectingDirectory={setSelectingDirectory}
+        />
+      )}
     </div>
   );
 };
