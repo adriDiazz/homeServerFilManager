@@ -1,7 +1,6 @@
 import { Request } from "express";
 import multer from "multer";
 import { extname } from "path";
-import { checkExtension } from "../utils/fileManager";
 
 export const storage = multer.diskStorage({
   destination: function (req: Request, file: Express.Multer.File, cb) {

@@ -1,7 +1,12 @@
+import { DirectoryListProps } from "../../types/props";
 import { shortName } from "../../utils/utils";
+
 import styles from "./DirectorySelection.module.css";
 
-const DirectoryList = ({ data, handleDirectoryClick }) => {
+const DirectoryList: React.FC<DirectoryListProps> = ({
+  data,
+  handleDirectoryClick,
+}) => {
   return (
     <ul className={styles.listWrapper}>
       {data?.map((file) => {

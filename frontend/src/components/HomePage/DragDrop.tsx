@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import "./DragDrop.css";
 import ModalComponent from "../ui/ModalComponent";
 import DocModal from "./DocModal";
@@ -8,12 +8,12 @@ import { ToastContainer } from "react-toastify";
 const DragDrop = () => {
   const [dragActive, setDragActive] = useState(false);
   const [opened, setOpened] = useState(false);
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<File[]>([]);
   const [allClosed, setAllClosed] = useState(false);
 
   const inputRef = useRef(null);
 
-  const handleDrag = function (e) {
+  const handleDrag = function (e: any) {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
@@ -23,17 +23,17 @@ const DragDrop = () => {
     }
   };
 
-  const handleDrop = function (e) {
+  const handleDrop = function (e: any) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+    if (e.dataTransfer?.files && e.dataTransfer?.files[0]) {
       setOpened(true);
-      setFiles(e.dataTransfer.files);
+      setFiles(e.dataTransfer?.files);
     }
   };
 
-  const handleChange = function (e) {
+  const handleChange = function (e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
       console.log(e.target.files);

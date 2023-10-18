@@ -1,6 +1,14 @@
 import styles from "./DocModal.module.css";
 
-const DocModalContent = ({
+export interface DocModalContentProps {
+  files: File[];
+  imageSrc: string;
+  setSelectingDirectory: (c: boolean) => void;
+  fileName: string;
+  setFilename: (s: string) => void;
+}
+
+const DocModalContent: React.FC<DocModalContentProps> = ({
   files,
   imageSrc,
   setSelectingDirectory,

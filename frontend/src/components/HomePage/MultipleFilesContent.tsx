@@ -1,12 +1,21 @@
 import styles from "./MultipleFiles.module.css";
 
-const MultipleFilesContent = ({
+export interface MultipleFilesContentProps {
+  files: File[];
+  imageSrc: string;
+  videoSrc: string;
+  pdfSrc: string;
+  setSelectingDirectory: (b: boolean) => void;
+}
+
+const MultipleFilesContent: React.FC<MultipleFilesContentProps> = ({
   files,
   imageSrc,
   videoSrc,
   pdfSrc,
   setSelectingDirectory,
 }) => {
+  console.log(files);
   return (
     <div className={styles.filesWrapper}>
       <h2>Preview Your Files</h2>

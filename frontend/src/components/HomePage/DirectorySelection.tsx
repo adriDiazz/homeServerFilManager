@@ -4,18 +4,25 @@ import useFetch from "../../hooks/useFetch";
 import { uploadFile, uploadMultipleFiles } from "../../services/uploadService";
 import Loader from "../ui/Loader";
 import DirectoryList from "./DirectoryList";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { FileType } from "../../types/files";
+
+interface DirectorySelectionProps {
+  name?: string;
+  fileInput: File;
+  files?: File[];
+  setAllClosed: (c: boolean) => void;
+}
 
 function DirectorySelection({
-  file,
   name = "",
   fileInput,
   files = [],
   setAllClosed,
-}) {
-  const { data, error, fetchData, loading } = useFetch();
+}: DirectorySelectionProps) {
+  const { data, error, fetchData, loading } = useFetch<FileType[]>();
   const [directory, setDirectory] = useState("/");
 
   const notify = () => toast("File uploaded");
@@ -25,7 +32,7 @@ function DirectorySelection({
     fetchData(import.meta.env.VITE_TREE_URL);
   }, []);
 
-  const handleDirectoryClick = (file) => {
+  const handleDirectoryClick = (file: FileType) => {
     setDirectory((prev) => {
       return prev + `${file.name}/`;
     });
@@ -33,29 +40,31 @@ function DirectorySelection({
   };
 
   const handleDirectoryBack = () => {
-    // Separa el directorio actual en partes
     const parts = directory.split("/");
 
-    // Elimina la última parte (la carpeta actual) del array de partes
     parts.pop();
     parts.pop();
 
-    // Vuelve a unir las partes para obtener el nuevo directorio
     const newDirectory = parts.join("/");
 
-    // Actualiza el estado directory con el nuevo directorio
     setDirectory(newDirectory);
 
-    // Realiza una nueva solicitud al servidor para cargar la información de la carpeta padre
     fetchData(import.meta.env.VITE_TREE_URL + newDirectory);
   };
 
-  const handleUpload = (e) => {
+  const handleUpload = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (files.length > 1) {
-      uploadMultipleFiles(files, setAllClosed, directory, notify, notifyError);
+      uploadMultipleFiles(
+        files,
+        setAllClosed,
+        directory,
+        notify,
+        notifyError,
+        name
+      );
     } else {
-      uploadFile(fileInput, setAllClosed, directory, notify, notifyError);
+      uploadFile(fileInput, setAllClosed, directory, notify, notifyError, name);
     }
   };
 

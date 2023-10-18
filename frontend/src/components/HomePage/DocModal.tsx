@@ -2,8 +2,13 @@ import { useState, useEffect } from "react";
 import styles from "./DocModal.module.css";
 import DirectorySelection from "./DirectorySelection";
 import DocModalContent from "./DocModalContent";
+import { DocModalProps } from "../../types/props";
 
-const DocModal = ({ files, setAllClosed, allClosed }) => {
+const DocModal: React.FC<DocModalProps> = ({
+  files,
+  setAllClosed,
+  allClosed,
+}) => {
   const [imageSrc, setImageSrc] = useState("");
   const [selectingDirectory, setSelectingDirectory] = useState(false);
   const [fileName, setFilename] = useState(files[0].name);
@@ -18,7 +23,7 @@ const DocModal = ({ files, setAllClosed, allClosed }) => {
       const reader = new FileReader();
 
       reader.onload = function (e) {
-        setImageSrc(e.target.result);
+        setImageSrc(e.target?.result as string);
       };
 
       reader.readAsDataURL(files[0]);
@@ -31,7 +36,6 @@ const DocModal = ({ files, setAllClosed, allClosed }) => {
     <div className={styles.modalWrapper}>
       {selectingDirectory && !error && !allClosed && (
         <DirectorySelection
-          file={imageSrc}
           name={fileName}
           fileInput={files[0]}
           setAllClosed={setAllClosed}

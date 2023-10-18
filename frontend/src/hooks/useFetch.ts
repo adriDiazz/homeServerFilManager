@@ -38,8 +38,8 @@ const useFetch = <Data>() => {
 
       setData(responseData);
       setError(null);
-    } catch (err) {
-      setError(err.message);
+    } catch (err: any) {
+      setError(err.message as string);
     } finally {
       setLoading(false);
     }
