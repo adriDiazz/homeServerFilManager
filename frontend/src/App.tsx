@@ -1,5 +1,6 @@
 import NavBar from "./components/ui/NavBar";
 import UserContextProvider from "./context/UserContext";
+import FilesPage from "./pages/FilesPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import "./styles/index.css";
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/files" element={<FilesPage />} />
         </Routes>
       </UserContextProvider>
     </>

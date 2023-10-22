@@ -7,10 +7,12 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    gap: 1rem;
+    gap: 4rem;
     padding: 1rem;
     width: fit-content;
+}
 
+.logoWrapper img{
     cursor: pointer;
 }
 
@@ -22,4 +24,14 @@
 
 .logoWrapper img {
     width: 2rem;
+}
+
+.textWrapper {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    width: fit-content;
+    cursor: pointer;
 }

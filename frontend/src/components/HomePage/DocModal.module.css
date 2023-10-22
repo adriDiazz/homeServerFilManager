@@ -1,6 +1,7 @@
 .modalWrapper {
     width: 50vw;
-    min-height: 60vh;
+
+    max-height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,18 +17,14 @@
     align-items: center;
 }
 
-.modalWrapper h2 {
-    padding: 2rem;
+/* .modalWrapper h2 {
 
-}
 
-/* .modalWrapper img {
-    padding: 2rem;
-    width: 70%;
 } */
+
+
 .modalWrapperImage {
-    padding: 2rem;
-    width: 70%;
+    width: 50%;
 }
 
 .btn {

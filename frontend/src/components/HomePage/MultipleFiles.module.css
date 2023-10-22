@@ -1,6 +1,6 @@
 .modalWrapper {
-    width: 80vw;
-    min-height: 100%;
+    width: 50vw;
+    max-height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

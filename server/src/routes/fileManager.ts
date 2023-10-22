@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   getDirRootTreeFromPath,
   getDirTreeFromPath,
+  getLastFiles,
   uploadMultipleFile,
   uploadSingleFile,
 } from "../controllers/fileManager";
@@ -36,6 +37,7 @@ fileManagerRouter.post(
   upload.array("uploadedFiles", 5),
   uploadMultipleFile
 );
+fileManagerRouter.get("/latest", getLastFiles);
 fileManagerRouter.get("/uploads/:path(*)", getDirTreeFromPath);
 fileManagerRouter.get("/uploads", getDirRootTreeFromPath);
 

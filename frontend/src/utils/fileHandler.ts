@@ -9,3 +9,20 @@ export const fileHandler = (file, setImageSrc) => {
     reader.readAsDataURL(files[0]);
   }
 };
+
+export function formatFileSize(sizeInBytes: number) {
+  if (sizeInBytes < 1024) {
+    return sizeInBytes.toFixed(2) + " bytes";
+  } else if (sizeInBytes < 1024 * 1024) {
+    return (sizeInBytes / 1024).toFixed(2) + " KB";
+  } else if (sizeInBytes < 1024 * 1024 * 1024) {
+    return (sizeInBytes / (1024 * 1024)).toFixed(2) + " MB";
+  } else {
+    return (sizeInBytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+  }
+}
+
+export function formatFileName(fileName: string) {
+  const splited = fileName.split("-")[0];
+  return splited;
+}

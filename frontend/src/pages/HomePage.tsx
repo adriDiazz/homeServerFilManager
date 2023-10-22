@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import styles from "./HomePage.module.css";
@@ -8,6 +8,8 @@ import LastFilesTable from "../components/HomePage/LastFilesTable";
 const HomePage = () => {
   const { token } = useUserContext();
   const navigate = useNavigate();
+  const [files, setFiles] = useState<File[]>([]);
+  const [allClosed, setAllClosed] = useState(false);
 
   useEffect(() => {
     const tokenlc = localStorage.getItem("token");
@@ -28,11 +30,16 @@ const HomePage = () => {
         </div>
         <div className={styles.dragWrapper}>
           <p className={styles.text}>Upload Files</p>
-          <DragDrop />
+          <DragDrop
+            files={files}
+            setFiles={setFiles}
+            allClosed={allClosed}
+            setAllClosed={setAllClosed}
+          />
         </div>
         <div className={styles.lastFilesWrapper}>
           <p className={styles.text}>Last files</p>
-          <LastFilesTable />
+          <LastFilesTable files={files} allClosed={allClosed} />
         </div>
       </div>
       <div className={styles.right}>

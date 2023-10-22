@@ -29,6 +29,12 @@ function DirectorySelection({
   const notifyError = () => toast("Error while uploading");
 
   useEffect(() => {
+    if (directory === "") {
+      setDirectory("/");
+    }
+  }, [directory]);
+
+  useEffect(() => {
     fetchData(import.meta.env.VITE_TREE_URL);
   }, []);
 

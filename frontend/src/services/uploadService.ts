@@ -1,4 +1,3 @@
-import { ToastContent } from "react-toastify";
 import {
   uploadFileFunctionProps,
   uploadMultipleFilesFunctionProps,
@@ -14,7 +13,10 @@ export const uploadFile: uploadFileFunctionProps = (
 ) => {
   const formData = new FormData();
 
+  console.log(name);
+
   formData.append("uploadedFile", file);
+  formData.append("fileName", name);
 
   fetch(import.meta.env.VITE_UPLOAD_URL + directory, {
     method: "POST",
@@ -50,6 +52,8 @@ export const uploadMultipleFiles: uploadMultipleFilesFunctionProps = (
   for (let i = 0; i < files.length; i++) {
     formData.append(`uploadedFiles`, files[i]);
   }
+
+  formData.append("fileName", name);
 
   fetch(import.meta.env.VITE_UPLOAD_MULTIPLE_URL + directory, {
     method: "POST",

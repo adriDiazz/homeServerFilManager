@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { join } from "path";
 import { readdirRecursive } from "../utils/fileManager";
+import { readdir, statSync } from "node:fs";
+import { join } from "node:path";
 
 export const uploadSingleFile = (
   req: Request,
@@ -21,8 +22,6 @@ export const uploadMultipleFile = (
   next: NextFunction
 ) => {
   const files = req.files;
-  console.log("Jpl;a");
-  console.log(req.params);
   if (!files) {
     const error = new Error("Please upload a file");
     return next(error);
@@ -59,4 +58,46 @@ export const getDirRootTreeFromPath = (
   } catch (error) {
     return next(error);
   }
+};
+
+export const getLastFiles = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const uploadsPath = join(__dirname, `../uploads`);
+
+    readdir(uploadsPath, (err, files) => {
+      if (err) {
+        return res
+          .status(500)
+          .json({ error: "Error al leer el directorio de subidas" });
+      }
+
+      // Ordena los archivos por fecha de modificación en orden descendente
+      const sortedFiles = files
+        .map((filename) => {
+          const filePath = join(uploadsPath, filename);
+          const stats = statSync(filePath);
+          return {
+            name: filename,
+            date: stats.mtime,
+            isDirectory: stats.isDirectory(),
+            fileSize: stats.size / (1024 * 1024 * 1024),
+          } as {
+            name: string;
+            date: Date;
+            isDirectory: boolean;
+            fileSize: number;
+          };
+        })
+        .sort((a, b) => b.date.getTime() - a.date.getTime());
+
+      const numberOfFiles = 10;
+      const latestFiles = sortedFiles.slice(0, numberOfFiles);
+
+      res.send(latestFiles);
+    });
+  } catch (error) {}
 };

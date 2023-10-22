@@ -5,11 +5,9 @@ import DocModal from "./DocModal";
 import MultipleFiles from "./MultipleFiles";
 import { ToastContainer } from "react-toastify";
 
-const DragDrop = () => {
+const DragDrop = ({ files, setFiles, allClosed, setAllClosed }) => {
   const [dragActive, setDragActive] = useState(false);
   const [opened, setOpened] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
-  const [allClosed, setAllClosed] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -28,6 +26,7 @@ const DragDrop = () => {
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer?.files && e.dataTransfer?.files[0]) {
+      setAllClosed(false);
       setOpened(true);
       setFiles(e.dataTransfer?.files);
     }
@@ -36,7 +35,7 @@ const DragDrop = () => {
   const handleChange = function (e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
-      console.log(e.target.files);
+      setAllClosed(false);
       setOpened(true);
       setFiles(e.target.files);
     }

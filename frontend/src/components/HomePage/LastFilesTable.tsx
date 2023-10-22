@@ -5,20 +5,24 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import useFetch from "../../hooks/useFetch";
+import { useEffect } from "react";
+import { formatFileName, formatFileSize } from "../../utils/fileHandler";
 
-function createData(name: string, fileSize: number, date: string) {
-  return { name, fileSize, date };
+interface fileData {
+  name: string;
+  date: string;
+  fileSize: number;
+  isDirectory: boolean;
 }
 
-const rows = [
-  createData("Frozen yoghurt", 159, "22/22/22"),
-  createData("Ice cream sandwich", 237, "22/22/22"),
-  createData("Eclair", 262, "22/22/22"),
-  createData("Cupcake", 305, "22/22/22"),
-  createData("Gingerbread", 356, "22/22/22"),
-];
+export default function LastFilesTable({ files, allClosed }) {
+  const { data, fetchData, error, loading } = useFetch<fileData[]>();
 
-export default function LastFilesTable() {
+  useEffect(() => {
+    fetchData(import.meta.env.VITE_LATEST_URL);
+  }, [allClosed]);
+
   return (
     <TableContainer component={Paper}>
       <Table
@@ -38,18 +42,34 @@ export default function LastFilesTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.fileSize}</TableCell>
-              <TableCell align="right">{row.date}</TableCell>
-            </TableRow>
-          ))}
+          {data?.map((row) => {
+            const date = new Date(row.date);
+            const finalDate = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+            return (
+              <TableRow
+                key={row.name}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                      gap: "1rem",
+                    }}
+                  >
+                    <img src="folderMini.png" alt="" />
+                    {formatFileName(row.name)}
+                  </div>
+                </TableCell>
+                <TableCell align="right">
+                  {formatFileSize(row.fileSize)}
+                </TableCell>
+                <TableCell align="right">{finalDate}</TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>
