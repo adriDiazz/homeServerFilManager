@@ -1,3 +1,4 @@
+import Button from "../ui/Button";
 import styles from "./MultipleFiles.module.css";
 
 export interface MultipleFilesContentProps {
@@ -60,14 +61,13 @@ const MultipleFilesContent: React.FC<MultipleFilesContentProps> = ({
         }
       })}
       <div className={styles.btnWrapper}>
-        <button
-          className={styles.btn}
+        <Button
           onClick={() => {
             setSelectingDirectory(true);
           }}
         >
           Upload
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -58,3 +58,8 @@ export const readdirRecursive = (folderPath: string) => {
 
   return result;
 };
+
+export function bytesToGB(bytes: number) {
+  const gb = bytes / 1073741824; // 1 GB = 1073741824 bytes
+  return gb.toFixed(2);
+}

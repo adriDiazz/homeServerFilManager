@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import { FileType } from "../../types/files";
+import Button from "../ui/Button";
 
 interface DirectorySelectionProps {
   name?: string;
@@ -90,9 +91,7 @@ function DirectorySelection({
       )}
       {error && <h2>Error getting info server</h2>}
       <div className={styles.btnWrapper}>
-        <button className={styles.btn} onClick={handleUpload}>
-          Confirm
-        </button>
+        <Button onClick={handleUpload}>Confirm</Button>
       </div>
     </div>
   );

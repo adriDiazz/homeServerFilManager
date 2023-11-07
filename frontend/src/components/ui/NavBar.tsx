@@ -3,6 +3,8 @@ import style from "./NavBar.module.css";
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const isLogin = window.location.pathname === "/login" ? true : false;
+
   return (
     <div className={style.wrapper}>
       <div className={style.logoWrapper}>
@@ -15,13 +17,15 @@ const NavBar = () => {
           <img src="logo.png" alt="" />
           <span>KASA</span>
         </div>
-        <img
-          src="folderNav.png"
-          alt=""
-          onClick={() => {
-            navigate("files");
-          }}
-        />
+        {!isLogin && (
+          <img
+            src="folderNav.png"
+            alt=""
+            onClick={() => {
+              navigate("files");
+            }}
+          />
+        )}
       </div>
     </div>
   );

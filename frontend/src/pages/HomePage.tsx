@@ -4,19 +4,27 @@ import { useNavigate } from "react-router-dom";
 import styles from "./HomePage.module.css";
 import DragDrop from "../components/HomePage/DragDrop";
 import LastFilesTable from "../components/HomePage/LastFilesTable";
+import { validateToken } from "../utils/token";
+import StatsBox from "../components/HomePage/StatsBox";
 
 const HomePage = () => {
-  const { token } = useUserContext();
+  const { setToken } = useUserContext();
   const navigate = useNavigate();
   const [files, setFiles] = useState<File[]>([]);
   const [allClosed, setAllClosed] = useState(false);
 
   useEffect(() => {
-    const tokenlc = localStorage.getItem("token");
-    if (!tokenlc) {
+    // Al cargar la página, intenta obtener el token de localStorage
+    const storedToken = localStorage.getItem("token");
+    const isValid = validateToken(storedToken);
+    if (isValid) {
+      // Si se encuentra un token en localStorage, actualízalo en el estado del contexto
+      setToken(storedToken as string);
+    } else {
+      // Si no hay un token en localStorage, redirige al usuario a la página de inicio de sesión
       navigate("/login");
     }
-  }, [token, navigate]);
+  }, [setToken, navigate]);
 
   return (
     <div className={styles.wrapper}>
@@ -43,7 +51,7 @@ const HomePage = () => {
         </div>
       </div>
       <div className={styles.right}>
-        <div className={styles.rightWrapper}></div>
+        <StatsBox />
       </div>
     </div>
   );

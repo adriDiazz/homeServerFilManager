@@ -1,5 +1,12 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { User } from "../types/form";
+import { validateToken } from "../utils/token";
 
 interface UserContextProviderProps {
   children: ReactNode;
@@ -22,6 +29,16 @@ export const UserContext = createContext<UserContextType | undefined>({
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [token, setToken] = useState<string | undefined>();
   const [user, setUser] = useState<User | undefined>();
+
+  useEffect(() => {
+    // Comprobar si el token es válido y no ha caducado
+    const isValidToken = validateToken(token); // Implementa la función validateToken
+    if (!isValidToken) {
+      // Si el token no es válido, elimínalo y establece el usuario en undefined
+      setToken(undefined);
+      setUser(undefined);
+    }
+  }, [token]);
 
   const provider: UserContextType = {
     token,

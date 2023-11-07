@@ -60,12 +60,7 @@
     width: 60%;
 }
 
-.rightWrapper {
-    width: 100%;
-    height: 100%;
-    background-color: var(--dark);
-    border-radius: 8px;
-}
+
 
 .text {
     font-weight: 700;

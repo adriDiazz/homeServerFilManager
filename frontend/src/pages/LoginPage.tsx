@@ -4,22 +4,24 @@ import { useEffect, useState } from "react";
 import { LoginForm, LoginResponse } from "../types/form";
 import useFetch from "../hooks/useFetch";
 import { useUserContext } from "../context/UserContext";
+import { validateToken } from "../utils/token";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const { data, error, fetchData } = useFetch<LoginResponse>();
-  const { setToken, setUser } = useUserContext();
+  const { setToken, setUser, token } = useUserContext();
   const [formData, setFormData] = useState<LoginForm>({
     username: "",
     password: "",
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("token") || "";
-    if (token) {
+    const storedToken = localStorage.getItem("token");
+    const isValid = validateToken(storedToken);
+    if (isValid) {
       navigate("/");
     }
-  }, [data, navigate]);
+  }, [token, navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,7 +39,7 @@ const LoginPage = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.textWrapper}>
-        <h2>Sing in to</h2>
+        <h2>Sign in to</h2>
         <h3>Kasa server</h3>
         <p>If dont have an account ask the admin</p>
       </div>

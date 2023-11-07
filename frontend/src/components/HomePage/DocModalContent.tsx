@@ -1,3 +1,4 @@
+import Button from "../ui/Button";
 import styles from "./DocModal.module.css";
 
 export interface DocModalContentProps {
@@ -52,14 +53,13 @@ const DocModalContent: React.FC<DocModalContentProps> = ({
             setFilename(e.target.value);
           }}
         />
-        <button
-          className={styles.btn}
+        <Button
           onClick={() => {
             setSelectingDirectory(true);
           }}
         >
           Upload
-        </button>
+        </Button>
       </div>
     </>
   );
