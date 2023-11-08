@@ -4,15 +4,11 @@ export interface storageResponse {
   used: string;
 }
 
-export const getStoragePercentage = ({
-  total,
-  free,
-  used,
-}: storageResponse) => {
+export const getStoragePercentage = (data: storageResponse) => {
   const numData = {
-    total: Number(total.split(" ")[0]),
-    free: Number(free.split(" ")[0]),
-    used: Number(used.split(" ")[0]),
+    total: Number(data?.total.split(" ")[0]),
+    free: Number(data?.free.split(" ")[0]),
+    used: Number(data?.used.split(" ")[0]),
   };
 
   const usedPercentage = (numData.used / numData.total) * 100;

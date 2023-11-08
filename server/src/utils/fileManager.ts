@@ -1,6 +1,5 @@
-import { extname } from "path";
 import { readdirSync, statSync } from "fs";
-import { join } from "path";
+import { join, extname } from "path";
 
 export const checkExtension = (filename: string) => {
   const allowedExt = [
@@ -59,7 +58,55 @@ export const readdirRecursive = (folderPath: string) => {
   return result;
 };
 
-export function bytesToGB(bytes: number) {
-  const gb = bytes / 1073741824; // 1 GB = 1073741824 bytes
-  return gb.toFixed(2);
+export function bytesToGb(bytes: number) {
+  if (bytes >= 1073741824) {
+    const gb = bytes / 1073741824; // 1 GB = 1073741824 bytes
+    return gb.toFixed(2) + " GB";
+  } else if (bytes >= 1048576) {
+    const mb = bytes / 1048576; // 1 MB = 1048576 bytes
+    return mb.toFixed(2) + " MB";
+  } else if (bytes >= 1024) {
+    const kb = bytes / 1024; // 1 KB = 1024 bytes
+    return kb.toFixed(2) + " KB";
+  } else {
+    return bytes + " bytes";
+  }
 }
+
+export const getTypesRecursive = (folderPath: string) => {
+  const items = readdirSync(folderPath);
+  // const result: Item[] = [];
+  const result = {
+    documents: 0,
+    images: 0,
+    videos: 0,
+  };
+
+  const imageExtensions = [".jpg", ".jpeg", ".png", ".gif"];
+  const videoExtensions = [".mp4", ".avi", ".mkv"];
+
+  items.forEach((item) => {
+    const itemPath = join(folderPath, item);
+    const stats = statSync(itemPath);
+
+    if (stats.isFile()) {
+      const ext = extname(item);
+      if (ext.includes("pdf")) {
+        result.documents = result.documents + stats.size;
+      } else if (imageExtensions.includes(ext)) {
+        result.images = result.images + stats.size;
+      } else if (videoExtensions.includes(ext)) {
+        result.videos = result.videos + stats.size;
+      }
+    }
+
+    if (stats.isDirectory()) {
+      const subfolderResult = getTypesRecursive(itemPath);
+      result.documents += subfolderResult.documents;
+      result.images += subfolderResult.images;
+      result.videos += subfolderResult.videos;
+    }
+  });
+
+  return result;
+};

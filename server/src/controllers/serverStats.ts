@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import os from "node:os";
-import { bytesToGB } from "../utils/fileManager";
+import { bytesToGb, getTypesRecursive } from "../utils/fileManager";
 import disk from "diskusage";
 import { join } from "node:path";
 export const getServerStorage = (req: Request, res: Response) => {
@@ -28,4 +28,25 @@ export const getServerStorage = (req: Request, res: Response) => {
       res.json(storageInfo);
     }
   });
+};
+
+export const getCountOfEachType = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const path = req.params.path || "";
+
+  const uploadsPath = join(__dirname, `../uploads/${path}`);
+  try {
+    const dirTree = getTypesRecursive(uploadsPath);
+    const response = {
+      documents: bytesToGb(dirTree.documents),
+      images: bytesToGb(dirTree.images),
+      videos: bytesToGb(dirTree.videos),
+    };
+    res.send(response);
+  } catch (error) {
+    return next(error);
+  }
 };

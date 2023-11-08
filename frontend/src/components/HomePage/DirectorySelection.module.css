@@ -11,12 +11,14 @@
 
 .listWrapper {
     width: 90%;
-    height: 80%;
+    height: 20rem;
     display: grid;
     grid-template-columns: 1fr 1fr minmax(160px, 1fr);
     gap: 2rem;
     padding: 2rem;
     overflow-y: scroll;
+    background-color: var(--grey);
+    margin-top: 4rem;
 }
 
 .listWrapper li {

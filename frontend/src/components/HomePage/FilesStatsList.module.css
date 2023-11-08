@@ -1,0 +1,56 @@
+.wrapper {
+    margin-top: 3rem;
+    padding: 1rem;
+}
+
+.listWrapper {
+    margin-top: 3rem;
+    padding: 1rem;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    background-color: #282828;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+
+}
+
+.listItemWrapper {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+}
+
+.listItem {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+}
+
+.listItem img {
+    width: 15%;
+}
+
+.listItem span {
+    width: 40%;
+}
+
+.line {
+    width: 100%;
+    height: 2px;
+    background-color: #FFF;
+}
+.darkSpan {
+    color: #A0A0A0;
+}
+
+.whiteSpan {
+    color: #FFF;
+}

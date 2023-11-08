@@ -43,9 +43,8 @@ const StorageBar: React.FC<StorageBarProps> = ({ data }) => {
     <div className={styles.topWrapper}>
       <span className={styles.darkSpan}>Storage</span>
       <div className={styles.wrapper}>
-        {storagePercentage > 50 && <LowSpace />}
-        {(storagePercentage < 50 && storagePercentage > 40) ||
-          (storagePercentage === 50 && <MediumSpace />)}
+        {storagePercentage > 60 && <LowSpace />}
+        {storagePercentage < 60 && storagePercentage > 40 && <MediumSpace />}
         {storagePercentage < 40 && <MuchSpace />}
       </div>
       <span className={styles.whiteSpan}>

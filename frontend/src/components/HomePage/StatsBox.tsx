@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import styles from "./StatsBox.module.css";
 import useFetch from "../../hooks/useFetch";
-import { json } from "react-router-dom";
 import StorageBar from "./StorageBar";
 import { storageResponse } from "../../utils/storageHandler";
+import FilesStatsList from "./FilesStatsList";
 
 const StatsBox = () => {
   const { data, error, fetchData, loading } = useFetch<storageResponse>();
@@ -14,7 +14,9 @@ const StatsBox = () => {
 
   return (
     <div className={styles.rightWrapper}>
-      <StorageBar data={data} />
+      {error && <div>Error</div>}
+      {loading && !error ? <div>Loading...</div> : <StorageBar data={data} />}
+      <FilesStatsList />
     </div>
   );
 };

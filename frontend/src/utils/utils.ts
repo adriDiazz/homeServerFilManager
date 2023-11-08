@@ -7,3 +7,9 @@ export const shortName = (name: string) => {
   }
   return name;
 };
+
+export const selectIcon = (key: string) => {
+  if (key === "documents") return "docIcon.png";
+  if (key === "images") return "videoIcon.png";
+  if (key === "videos") return "photoIcon.png";
+};
